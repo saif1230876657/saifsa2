@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مدرس العلوم المتكاملة - دردشة ذكاء اصطناعي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Cairo&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #343541;
+      --card: #444654;
+      --text: #d1d5db;
+      --input-bg: #40414f;
+      --primary: #10a37f;
+      --border: #5a5f76;
+      --error: #f56565;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+    .container {
+      width: 100%;
+      max-width: 700px;
+      height: 90vh;
+      background: var(--card);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .header {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+    }
+    .header i.fa-robot {
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+    .header h1 {
+      flex: 1;
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .header button {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .chat-container {
+      flex: 1;
+      padding: 0.75rem;
+      overflow-y: auto;
+    }
+    .message {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .message.user {
+      text-align: right;
+    }
+    .message.bot {
+      text-align: left;
+    }
+    .bubble {
+      display: inline-block;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      line-height: 1.4;
+      font-size: 1.15rem;
+    }
+    .message.user .bubble {
+      background: var(--input-bg);
+    }
+    .message.bot .bubble {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-family: 'Cairo', sans-serif;
+    }
+    .actions {
+      margin-top: 0.3rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .actions i {
+      cursor: pointer;
+    }
+    .chat-input {
+      display: flex;
+      padding: 0.4rem;
+      background: var(--input-bg);
+    }
+    .chat-input textarea {
+      flex: 1;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem;
+      background: var(--card);
+      color: var(--text);
+      resize: none;
+      outline: none;
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .chat-input button {
+      margin-left: 0.4rem;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      opacity: 0.9;
+    }
+    .log-container {
+      display: none;
+      padding: 0.75rem;
+      background: var(--input-bg);
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+    }
+    .status {
+      padding: 4px 8px;
+      font-size: 0.85rem;
+    }
+    .status.error {
+      color: var(--error);
+    }
+    a.more-link {
+      color: var(--primary);
+      margin-left: 0.5rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-robot"></i>
+      <h1>مدرس العلوم المتكاملة</h1>
+      <button id="showLog">السجل</button>
+    </div>
+    <div id="logContainer" class="log-container"></div>
+    <div id="chatContainer" class="chat-container"></div>
+    <div id="statusBar" class="status"></div>
+    <div class="chat-input">
+      <textarea id="userInput" rows="1" placeholder="اكتب رسالتك هنا..."></textarea>
+      <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+      <input id="apiKey" type="hidden" value="AIzaSyBUqzhaui0pz0PqhCsVEpQYfOHsCYKtPBk">
+    </div>
+  </div>
+  <script>
+    // ضبط الصف والمنهج بشكل ثابت
+    const grade = 'أولى ثانوي';
+    const curriculum = 'العلوم المتكاملة';
+    let conversationHistory = localStorage.getItem('saAI_history') || '';
+
+    const chatContainer = document.getElementById('chatContainer');
+    const logContainer  = document.getElementById('logContainer');
+    const statusBar     = document.getElementById('statusBar');
+    const userInput     = document.getElementById('userInput');
+    const apiKey        = document.getElementById('apiKey').value;
+
+    document.getElementById('showLog').onclick = () => {
+      logContainer.innerHTML = '';
+      const lines = (conversationHistory || '').split('\n');
+      lines.forEach(line => {
+        if (line.trim()) {
+          const div = document.createElement('div');
+          div.textContent = line;
+          div.style.margin = '4px 0';
+          logContainer.appendChild(div);
+        }
+      });
+      logContainer.style.display = logContainer.style.display === 'block' ? 'none' : 'block';
+    };
+
+    addBot(`مرحبًا بك في مدرس العلوم المتكاملة للصف ${grade} (منهج ${curriculum}).`);
+    addBot(`سأجيب فقط على الأسئلة من منهج ${curriculum}. لا يمكنني الإجابة على أي سؤال خارج هذا المنهج.`);
+
+    function addUser(text) {
+      appendMessage('user', text);
+      conversationHistory += `المستخدم: ${text}\n`;
+      saveHistory();
+    }
+
+    function addBot(text) {
+      appendMessage('bot', text);
+      conversationHistory += `مدرس: ${text}\n`;
+      saveHistory();
+    }
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      if (sender === 'bot' && text.length > 200) {
+        bubble.textContent = text.slice(0, 200) + '...';
+        const moreLink = document.createElement('a');
+        moreLink.textContent = 'مزيد من التفاصيل';
+        moreLink.className = 'more-link';
+        moreLink.onclick = e => {
+          e.preventDefault();
+          if (bubble.textContent.length > 200) {
+            bubble.textContent = text.replace(/\n/g, '\n').replace(/(\d+)\./g, '\n$1.');
+            moreLink.textContent = 'إخفاء التفاصيل';
+          } else {
+            bubble.textContent = text.slice(0, 200) + '...';
+            moreLink.textContent = 'مزيد من التفاصيل';
+          }
+        };
+        msg.appendChild(bubble);
+        msg.appendChild(moreLink);
+      } else {
+        bubble.textContent = text.replace(/\n/g, '\n').replace(/(\d+)\./g, '\n$1.');
+        msg.appendChild(bubble);
+      }
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const delIcon = document.createElement('i');
+      delIcon.className = 'fas fa-trash';
+      delIcon.title = 'حذف';
+      delIcon.onclick = () => msg.remove();
+      const copyIcon = document.createElement('i');
+      copyIcon.className = 'fas fa-copy';
+      copyIcon.title = 'نسخ';
+      copyIcon.onclick = () => navigator.clipboard.writeText(text);
+      actions.appendChild(delIcon);
+      actions.appendChild(copyIcon);
+      msg.appendChild(actions);
+
+      chatContainer.appendChild(msg);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function setStatus(msg, isError = false) {
+      statusBar.textContent = msg;
+      statusBar.className = isError ? 'status error' : 'status';
+      if (!isError) setTimeout(() => statusBar.textContent = '', 1500);
+    }
+
+    function saveHistory() {
+      localStorage.setItem('saAI_history', conversationHistory);
+    }
+
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      addUser(text);
+      userInput.value = '';
+      setStatus('جاري المعالجة...');
+      try {
+        const prompt = conversationHistory + 'مدرس:';
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+          }
+        );
+        const data = await res.json();
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'لم أستلم رد.';
+        addBot(reply);
+      } catch {
+        setStatus('خطأ في الاتصال', true);
+      }
+    }
+
+    userInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
