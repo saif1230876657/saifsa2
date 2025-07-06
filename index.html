@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مكالمة فيديو شخصية</title>
+  <title>مكالمة فيديو خاصة</title>
   <style>
     body { font-family: 'Segoe UI', Tahoma; background: #141e30; color: #fff; margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
     .container, .video-container { background: rgba(31,42,60,0.9); padding:20px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
@@ -50,7 +50,7 @@
     const localVideo = document.getElementById('localVideo');
     const remoteVideo = document.getElementById('remoteVideo');
 
-    let localStream, pc;
+    let localStream, pc, roomId;
     const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
     async function startCamera() {
@@ -64,18 +64,23 @@
       videoSection.style.display = 'flex';
     }
 
-    startBtn.onclick = async () => {
-      const roomId = roomIdInput.value.trim();
-      if (!roomId) return alert('من فضلك أدخل كود المكالمة');
-      await startCamera();
-      showVideoUI(roomId);
-
+    async function createPeerConnection() {
       pc = new RTCPeerConnection(servers);
       localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
       pc.ontrack = e => remoteVideo.srcObject = e.streams[0];
+    }
+
+    startBtn.onclick = async () => {
+      roomId = roomIdInput.value.trim();
+      if (!roomId) return alert('من فضلك أدخل كود المكالمة');
+
+      await startCamera();
+      await createPeerConnection();
+      showVideoUI(roomId);
 
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
+
       set(ref(db, `rooms/${roomId}`), { offer });
 
       onValue(ref(db, `rooms/${roomId}/answer`), async snap => {
@@ -87,14 +92,12 @@
     };
 
     joinBtn.onclick = async () => {
-      const roomId = roomIdInput.value.trim();
+      roomId = roomIdInput.value.trim();
       if (!roomId) return alert('من فضلك أدخل كود المكالمة');
-      await startCamera();
-      showVideoUI(roomId);
 
-      pc = new RTCPeerConnection(servers);
-      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-      pc.ontrack = e => remoteVideo.srcObject = e.streams[0];
+      await startCamera();
+      await createPeerConnection();
+      showVideoUI(roomId);
 
       const roomRef = ref(db, `rooms/${roomId}`);
       onValue(roomRef, async snap => {
