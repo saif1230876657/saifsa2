@@ -1,114 +1,665 @@
-<!DOCTYPE html><html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مكالمة فيديو خاصة</title>
-  <style>
-    body { font-family: 'Segoe UI', Tahoma; background: #141e30; color: #fff; margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
-    .container, .video-container { background: rgba(31,42,60,0.9); padding:20px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
-    .container { text-align:center; max-width: 400px; width: 90%; }
-    input, button { padding:12px; margin:10px 0; width: 100%; border:none; border-radius:10px; font-size:16px; }
-    button { background: #00c6ff; cursor:pointer; }
-    #videoSection { display:none; flex-direction:column; align-items:center; }
-    video { width: 90%; max-width: 400px; margin:10px 0; border-radius:12px; border:2px solid #00c6ff; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>منصة الاختبارات الذكية 🚀</title>
+
+    <!-- Meta Tags for Social Sharing -->
+    <meta property="og:title" content="منصة الاختبارات الذكية 🚀" />
+    <meta property="og:description" content="بوابة التعلم الذكي التي تدمج التكنولوجيا بالتعليم! سواء كنت معلمًا مبتكرًا أو طالبًا طموحًا، نقدم لك أدوات متكاملة لتحقيق التميز الأكاديمي!" />
+    <meta property="og:image" content="https://i.postimg.cc/5tS00fp7/2017-2.jpg" />
+    <meta property="og:type" content="website" />
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="الاختبارات الذكية">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/3RBYLnd3/818334fa-20ba-431a-ad38-6bec7ef02203.png">
+    <meta name="theme-color" content="#3081f7">
+
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- General & Base Styles --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            direction: rtl;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Landing Page Styles --- */
+        #main-landing-page .supervision-tag {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        #main-landing-page .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: fadeInZoom 1s ease-out;
+            margin: 20px;
+        }
+
+        #main-landing-page h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #fff 30%, #fef3c7 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            font-weight: 800;
+            line-height: 1.2;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #main-landing-page p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            margin-bottom: 35px;
+            padding: 0 20px;
+        }
+
+        #main-landing-page .features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        #main-landing-page .features li {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        #main-landing-page .features li:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        #main-landing-page .features li i {
+            color: #4ade80;
+            margin-left: 12px;
+            font-size: 1.4rem;
+        }
+
+        #main-landing-page .role-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        #main-landing-page .role-button {
+            color: #fff;
+            padding: 25px 40px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        #main-landing-page .role-button::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            border-radius: 18px;
+            z-index: -1;
+        }
+
+        #main-landing-page .role-button.teacher { background: linear-gradient(45deg, #f59e0b, #d97706); }
+        #main-landing-page .role-button.student { background: linear-gradient(45deg, #3b82f6, #2563eb); }
+        #main-landing-page .role-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+        }
+        #main-landing-page .role-button i {
+            margin-left: 15px;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+        #main-landing-page .role-button:hover i { transform: rotate(10deg) scale(1.15); }
+
+        /* --- Animations --- */
+        @keyframes fadeInZoom { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- Teacher & Student Portal Shared Styles --- */
+        .portal-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--bg-color);
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .portal-container .container {
+            width: 95%;
+            max-width: 500px;
+            min-height: 95vh;
+            max-height: 95vh;
+            margin: auto;
+            background: var(--container-bg);
+            backdrop-filter: blur(15px) saturate(180%);
+            padding: 30px 25px 120px 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+            color: var(--text-color);
+        }
+
+        .portal-container .icon-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--item-bg); border: 1px solid var(--input-border); color: var(--text-color); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: all 0.3s ease;
+        }
+        .portal-container .icon-btn:hover { transform: translateY(-3px) scale(1.1); color: var(--accent-color); box-shadow: 0 0 15px var(--accent-glow); }
+        .portal-container #theme-toggle .fa-sun, .portal-container[data-theme="dark"] #theme-toggle .fa-moon { display: none; }
+        .portal-container #theme-toggle .fa-moon, .portal-container[data-theme="dark"] #theme-toggle .fa-sun { display: block; }
+        .portal-container .spinner { border: 4px solid var(--input-border); border-top: 4px solid var(--accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .portal-container p { text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-color); }
+        .portal-container p a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+        .portal-container hr { border: none; border-top: 1px solid var(--input-border); margin: 25px 0; }
+        .portal-container button { width: 100%; padding: 14px 15px; border: none; border-radius: 12px; font-size: 1.1rem; font-family: 'Cairo', sans-serif; font-weight: 700; color: #fff; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px var(--shadow-color); }
+        
+        .bottom-nav { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: auto; display: flex; gap: 8px; padding: 8px; background: var(--container-bg); backdrop-filter: blur(20px) saturate(180%); border-radius: 99px; border: 1px solid var(--input-border); box-shadow: 0 8px 32px 0 var(--shadow-color); z-index: 1000; transition: bottom 0.3s ease, opacity 0.3s ease; }
+        .bottom-nav .nav-btn { display: flex; align-items: center; gap: 5px; padding: 8px 16px; background: transparent; border: none; color: var(--text-color); opacity: 0.7; border-radius: 99px; font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .bottom-nav .nav-btn.active { opacity: 1; background: rgba(var(--accent-rgb), 0.15); color: var(--accent-color); box-shadow: 0 0 15px -5px var(--accent-glow); }
+
+        /* --- Teacher Portal Theme & Styles --- */
+        #teacher-portal {
+            --bg-color: #f0f2f5; --container-bg: rgba(255, 255, 255, 0.85); --text-color: #1c1e21; --header-color: #005a9c; --accent-color: #007bff; --accent-rgb: 0, 123, 255; --accent-glow: rgba(var(--accent-rgb), 0.5); --input-bg: #ffffff; --input-border: #ccd0d5; --item-bg: #ffffff; --item-hover-bg: #f5f5f5; --shadow-color: rgba(0, 0, 0, 0.1); --success-color: #28a745; --warning-color: #ffc107; --danger-color: #dc3545;
+        }
+        #teacher-portal[data-theme="dark"] {
+            --bg-color: #0d1117; --container-bg: rgba(22, 27, 34, 0.8); --text-color: #c9d1d9; --header-color: #58a6ff; --accent-color: #3081f7; --accent-rgb: 48, 129, 247; --accent-glow: rgba(var(--accent-rgb), 0.5); --input-bg: #0d1117; --input-border: #30363d; --item-bg: #161b22; --item-hover-bg: #21262d; --shadow-color: rgba(0, 0, 0, 0.4); --success-color: #3fb950; --warning-color: #e3b341; --danger-color: #f85149;
+        }
+        #teacher-portal .header-icons { position: absolute; top: 20px; left: 25px; display: flex; gap: 15px; z-index: 100; }
+        #teacher-portal h1, #teacher-portal h2, #teacher-portal h3 { text-align: center; margin-bottom: 25px; font-weight: 700; color: var(--header-color); text-shadow: 0 0 10px var(--accent-glow); }
+        #teacher-portal input, #teacher-portal select, #teacher-portal textarea { width: 100%; padding: 14px 15px; margin-bottom: 15px; border: 1px solid var(--input-border); border-radius: 10px; font-size: 1rem; font-family: 'Cairo', sans-serif; background: var(--input-bg); color: var(--text-color); transition: all 0.3s ease; }
+        #teacher-portal button { margin-top: 10px; background: linear-gradient(45deg, var(--accent-color), var(--header-color)); }
+        #teacher-portal .list-item { background: var(--item-bg); padding: 15px 20px; margin-bottom: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--input-border); box-shadow: 0 2px 5px var(--shadow-color); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        #teacher-portal label { font-weight: 600; display: block; margin-bottom: 5px; color: var(--text-color); text-align: right;}
+        #teacher-portal #image-preview-container { margin-top: 10px; text-align: center; } #teacher-portal #image-preview { max-width: 100px; max-height: 100px; border-radius: 8px; border: 1px solid var(--input-border); }
+        #teacher-portal .file-input-label { background: var(--item-hover-bg); color: var(--text-color); border: 1px dashed var(--input-border); text-align: center; padding: 15px; border-radius: 10px; cursor: pointer; transition: all .3s ease; }
+        #teacher-portal input[type="file"] { display: none; }
+
+        /* --- Student Portal Theme & Styles --- */
+        #student-portal {
+            --bg-color: #f5f7fa; --container-bg: rgba(255, 255, 255, .85); --text-color: #2c3e50; --header-color: #34495e; --accent-color: #2ecc71; --accent-rgb: 46, 204, 113; --accent-glow: rgba(var(--accent-rgb), .3); --input-bg: #fff; --input-border: #dcdfe6; --item-bg: #fff; --item-hover-bg: #f1f5f9; --shadow-color: rgba(0, 0, 0, .15); --success-color: #27ae60; --warning-color: #f1c40f; --danger-color: #e74c3c;
+        }
+        #student-portal[data-theme="dark"] {
+            --bg-color: #0d1117; --container-bg: rgba(22, 27, 34, .85); --text-color: #c9d1d9; --header-color: #58a6ff; --accent-color: #3081f7; --accent-rgb: 48, 129, 247; --accent-glow: rgba(var(--accent-rgb), .3); --input-bg: #1a1c20; --input-border: #30363d; --item-bg: #161b22; --item-hover-bg: #21262d; --shadow-color: rgba(0, 0, 0, .45); --success-color: #3fb950; --warning-color: #e3b341; --danger-color: #f85149;
+        }
+        #student-portal .app-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--header-color); }
+        #student-portal .app-title { font-size:1.5rem; font-weight:700; display:flex; align-items:center; gap:.5rem; }
+        #student-portal .app-title i { font-size:1.8rem; color:var(--accent-color); }
+        #student-portal .header-actions { display:flex; gap:12px; }
+        #student-portal .form-group { position:relative; margin-bottom:22px; }
+        #student-portal .form-group input { box-sizing: border-box; width:100%; padding:14px 12px; background:var(--input-bg); border:1px solid var(--input-border); border-radius: 12px; font-size:1rem; color:var(--text-color); outline:none; transition:.2s; }
+        #student-portal .form-group label { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--input-border); pointer-events:none; transition:.2s; background:var(--input-bg); padding:0 4px; }
+        #student-portal .form-group input:focus + label, #student-portal .form-group input:not(:placeholder-shown) + label { top:-10px; right:10px; font-size:.8rem; color:var(--accent-color); }
+        #student-portal button { background:linear-gradient(45deg,var(--accent-color),var(--header-color)); }
+        #student-portal .test-item { background:var(--item-bg); padding: 12px 15px; margin-bottom: 15px; border:1px solid var(--input-border); border-radius: 12px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 6px var(--shadow-color); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        #student-portal .question-options label { display:flex; align-items:center; gap:12px; background:var(--item-bg); border:1px solid var(--input-border); border-radius: 12px; padding:12px 15px; margin-bottom:10px; cursor:pointer; transition:.2s; }
+        #student-portal .custom-alert-container { position:fixed; inset:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,.5); opacity:0; visibility:hidden; transition:opacity .3s; z-index:9999; }
+        #student-portal .custom-alert-container.show { opacity:1; visibility:visible; }
+        #student-portal .custom-alert { background:var(--item-bg); border-radius: 12px; padding:25px 30px; margin: 20px; width: 90%; max-width:380px; text-align:center; box-shadow:0 8px 25px var(--shadow-color); transform:scale(0.9); opacity:0; transition:transform .3s,opacity .3s; }
+        #student-portal .custom-alert-container.show .custom-alert { transform:scale(1); opacity:1; }
+        #student-portal .toast-container { position:fixed; bottom:120px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:10000; pointer-events:none; }
+        #student-portal .toast { background:rgba(22, 27, 34, 0.85); backdrop-filter: blur(10px); color: #fff; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: 0.9rem; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+        
+        /* === Media Queries for Responsiveness / تعديلات التصميم المتجاوب === */
+
+        /* --- 1. شكل الهاتف (Mobile View) - للشاشات بعرض 767px أو أقل --- */
+        @media (max-width: 767px) {
+            #main-landing-page .container { padding: 30px 15px; margin: 10px; }
+            #main-landing-page h1 { font-size: 2.5rem; }
+            #main-landing-page .features { grid-template-columns: 1fr; }
+            #main-landing-page .role-button { font-size: 1.2rem; padding: 20px 30px; }
+            #main-landing-page .supervision-tag { font-size: 0.8rem; padding: 8px 15px; top: 10px; right: 10px; }
+            .portal-container .container { width: 95%; padding: 25px 15px 100px 15px; min-height: 90vh; max-height: 90vh; }
+        }
+
+        /* --- 2. شكل التابلت (Tablet View) - للشاشات بين 768px و 1023px --- */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #main-landing-page .container { max-width: 90%; padding: 40px; }
+            #main-landing-page h1 { font-size: 3rem; }
+            .portal-container .container { max-width: 700px; }
+        }
+
+        /* --- 3. شكل اللابتوب (Laptop/Desktop View) - للشاشات بعرض 1024px أو أكبر --- */
+        @media (min-width: 1024px) {
+            #main-landing-page .container { max-width: 1200px; padding: 60px 50px; }
+            #main-landing-page h1 { font-size: 4rem; }
+            #main-landing-page p { font-size: 1.3rem; padding: 0 40px; }
+            #main-landing-page .features { grid-template-columns: repeat(4, 1fr); gap: 25px; }
+            #main-landing-page .role-selection { flex-direction: row; justify-content: center; gap: 40px; }
+            .portal-container .container { max-width: 900px; width: 80%; }
+        }
+
+    </style>
 </head>
 <body>
-  <div class="container" id="roomSection">
-    <h2>📹 مكالمة فيديو خاصة</h2>
-    <input id="roomIdInput" placeholder="أدخل كود المكالمة (مثلاً: ABC123)" />
-    <button id="startBtn">ابدأ المكالمة</button>
-    <button id="joinBtn">انضم للمكالمة</button>
-  </div>  <div class="video-container" id="videoSection">
-    <h3 id="roomLabel"></h3>
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo" autoplay playsinline></video>
-  </div>  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAjE-2q6PONBkCin9ZN22gDp9Q8pAH9ZW8",
-      authDomain: "story-97cf7.firebaseapp.com",
-      databaseURL: "https://story-97cf7-default-rtdb.firebaseio.com",
-      projectId: "story-97cf7",
-      storageBucket: "story-97cf7.firebasestorage.app",
-      messagingSenderId: "742801388214",
-      appId: "1:742801388214:web:32a305a8057b0582c5ec17",
-      measurementId: "G-9DPPWX7CF0"
-    };
+    <!-- ======== Main Landing Page Section ======== -->
+    <main id="main-landing-page">
+        <div class="supervision-tag">
+            <i class="fas fa-star"></i>
+            تحت إشراف: سيف هاني
+            <i class="fas fa-star"></i>
+        </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        <div class="container">
+            <h1>منصة الاختبارات الذكية 🚀</h1>
+            <p>بوابة التعلم الذكي التي تدمج التكنولوجيا بالتعليم! 🌟 سواء كنت <strong>معلمًا</strong> مبتكرًا أو <strong>طالبًا</strong> طموحًا، نقدم لك أدوات متكاملة لتحقيق التميز الأكاديمي!</p>
+            <ul class="features">
+                <li><i class="fas fa-magic"></i>إنشاء اختبارات ذكية</li>
+                <li><i class="fas fa-chart-line"></i>تحليلات أداء متقدمة</li>
+                <li><i class="fas fa-clock"></i>تصحيح آلي فوري</li>
+                <li><i class="fas fa-shield-alt"></i>نظام أمان متكامل</li>
+            </ul>
+            <div class="role-selection">
+                <a href="#" id="show-teacher-portal" class="role-button teacher">دخول المعلمين <i class="fas fa-chalkboard-teacher"></i></a>
+                <a href="#" id="show-student-portal" class="role-button student">دخول الطلاب <i class="fas fa-user-graduate"></i></a>
+            </div>
+        </div>
+    </main>
 
-    const roomSection = document.getElementById('roomSection');
-    const videoSection = document.getElementById('videoSection');
-    const roomLabel = document.getElementById('roomLabel');
-    const roomIdInput = document.getElementById('roomIdInput');
-    const startBtn = document.getElementById('startBtn');
-    const joinBtn = document.getElementById('joinBtn');
-    const localVideo = document.getElementById('localVideo');
-    const remoteVideo = document.getElementById('remoteVideo');
+    <!-- ======== Teacher Portal Section (Initially Hidden) ======== -->
+    <div id="teacher-portal" class="portal-container hidden" data-theme="dark">
+        <div class="container">
+            <div class="header-icons">
+                <div id="teacher-theme-toggle" class="icon-btn" title="تبديل الوضع"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></div>
+                <div id="teacher-logout-icon" class="icon-btn hidden" title="تسجيل الخروج"><i class="fas fa-sign-out-alt"></i></div>
+            </div>
+            <section id="teacher-register-section">
+                <h1>تسجيل جديد - معلم</h1>
+                <input type="text" id="teacher-register-name" placeholder="الاسم الكامل" required /><input type="password" id="teacher-register-password" placeholder="كلمة المرور" required /><button id="teacher-register-btn">تسجيل</button>
+                <p>هل لديك حساب؟ <a href="#" class="to-login">تسجيل دخول</a></p>
+            </section>
+            <section id="teacher-login-section" class="hidden">
+                <h1>تسجيل دخول - معلم</h1>
+                <input type="text" id="teacher-login-name" placeholder="الاسم الكامل" required /><input type="password" id="teacher-login-password" placeholder="كلمة المرور" required /><button id="teacher-login-btn">دخول</button>
+                <p>ليس لديك حساب؟ <a href="#" class="to-register">تسجيل جديد</a></p>
+            </section>
+            <section id="teacher-dashboard-section" class="hidden">
+                <h1>مرحبًا بك، <span id="teacher-name"></span>!</h1><hr />
+                <div id="teacher-tests-content" class="tab-content">
+                    <h2>اختباراتي المنشأة</h2><div id="my-tests-container"></div>
+                </div>
+                <div id="teacher-results-content" class="tab-content hidden">
+                    <h2>نتائج الطلاب</h2><select id="results-test-selector"></select><div id="student-results-container"></div>
+                </div>
+                <div id="teacher-create-test-content" class="tab-content hidden">
+                    <h2>إنشاء اختبار جديد</h2>
+                    <label for="test-name">اسم الاختبار:</label><input type="text" id="test-name" placeholder="مثال: اختبار الرياضيات" />
+                    <label for="test-grade">الصف:</label>
+                    <select id="test-grade"><option value="" disabled selected>اختر الصف</option><option value="الصف الأول الإعدادي">الصف الأول الإعدادي</option><option value="الصف الثاني الإعدادي">الصف الثاني الإعدادي</option><option value="الصف الأول الثانوي">الصف الأول الثانوي</option><option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option><option value="الصف الثالث الثانوي">الصف الثالث الثانوي</option></select>
+                    <label for="test-duration">مدة الاختبار بالدقائق:</label><input type="number" id="test-duration" min="1" placeholder="مثال: 30" />
+                    <hr/><h3>إضافة سؤال</h3>
+                    <label for="question-text">نص السؤال:</label><textarea id="question-text" rows="3" placeholder="اكتب السؤال هنا..."></textarea>
+                    <label for="question-image-input" class="file-input-label"><i class="fas fa-image"></i> <span>إرفاق صورة للسؤال (اختياري)</span></label>
+                    <input type="file" id="question-image-input" accept="image/*" /><div id="image-preview-container" class="hidden"><img id="image-preview" src="#" alt="معاينة الصورة" /></div>
+                    <label style="margin-top:15px;">خيارات الإجابة (4 خيارات):</label>
+                    <input type="text" class="option-input" placeholder="الخيار 1" /><input type="text" class="option-input" placeholder="الخيار 2" /><input type="text" class="option-input" placeholder="الخيار 3" /><input type="text" class="option-input" placeholder="الخيار 4" />
+                    <label for="correct-answer">رقم الإجابة الصحيحة (1 - 4):</label><input type="number" id="correct-answer" min="1" max="4" placeholder="مثال: 2" />
+                    <button id="add-question-btn" style="background: var(--accent-color);">إضافة سؤال للقائمة</button>
+                    <div id="questions-list-container" style="margin-top: 15px;"></div>
+                    <button id="save-test-btn" style="background: var(--success-color);">حفظ الاختبار</button>
+                </div>
+            </section>
+        </div>
+        <nav class="bottom-nav hidden" id="teacher-bottom-nav">
+            <button class="nav-btn active" data-target="teacher-tests-content"><i class="fas fa-file-alt"></i><span>الاختبارات</span></button>
+            <button class="nav-btn" data-target="teacher-results-content"><i class="fas fa-poll-h"></i><span>النتائج</span></button>
+            <button class="nav-btn" data-target="teacher-create-test-content"><i class="fas fa-plus-circle"></i><span>إنشاء</span></button>
+        </nav>
+    </div>
 
-    let localStream, pc, roomId;
-    const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+    <!-- ======== Student Portal Section (Initially Hidden) ======== -->
+    <div id="student-portal" class="portal-container hidden" data-theme="dark">
+         <div class="container">
+            <header class="app-header">
+                <div class="app-title"><i class="fas fa-graduation-cap"></i> منصة الاختبارات</div>
+                <div class="header-actions">
+                    <div id="student-theme-toggle" class="icon-btn" title="تبديل الوضع"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></div>
+                    <div id="student-logout-icon" class="icon-btn hidden" title="تسجيل الخروج"><i class="fas fa-sign-out-alt"></i></div>
+                </div>
+            </header>
+            <div id="custom-alert-container" class="custom-alert-container">
+                <div class="custom-alert"><h3 id="custom-alert-title"></h3><p id="custom-alert-message" style="margin: 15px 0;"></p><button id="custom-alert-close-btn" style="max-width: 120px; margin: 0 auto;">موافق</button></div>
+            </div>
+            <div id="toast-container" class="toast-container"></div>
+            <section id="student-register-section">
+                <h1>تسجيل جديد</h1>
+                <div class="form-group"><input type="text" id="student-register-name" placeholder=" " required autocomplete="off"><label for="student-register-name">الاسم الكامل</label></div>
+                <div class="form-group"><input type="password" id="student-register-password" placeholder=" " required autocomplete="new-password"><label for="student-register-password">كلمة المرور</label></div>
+                <button id="student-register-btn">تسجيل</button><p>هل لديك حساب؟ <a href="#" class="to-login">تسجيل دخول</a></p>
+            </section>
+            <section id="student-login-section" class="hidden">
+                <h1>تسجيل الدخول</h1>
+                <div class="form-group"><input type="text" id="student-login-name" placeholder=" " required autocomplete="off"><label for="student-login-name">الاسم الكامل</label></div>
+                <div class="form-group"><input type="password" id="student-login-password" placeholder=" " required autocomplete="current-password"><label for="student-login-password">كلمة المرور</label></div>
+                <button id="student-login-btn">دخول</button><p>ليس لديك حساب؟ <a href="#" class="to-register">تسجيل جديد</a></p>
+            </section>
+            <section id="student-dashboard-section" class="hidden">
+                <h1>مرحبًا بك، <span id="student-name"></span>!</h1><hr />
+                <div class="tab-content" id="student-tests-content">
+                    <div class="search-container" style="position:relative; margin-bottom:20px;"><input type="text" id="search-bar" placeholder="ابحث عن اختبار..." style="width:100%; padding:12px 40px 12px 14px; border:1px solid var(--input-border); border-radius:12px; background:var(--input-bg); color:var(--text-color);"/><i class="fas fa-search" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--input-border);"></i></div>
+                    <h2>الاختبارات المتاحة</h2><div id="available-tests-container"></div>
+                </div>
+                <div class="tab-content hidden" id="student-results-content">
+                    <h2>نتائجي السابقة</h2><div id="my-student-results-container"></div>
+                </div>
+            </section>
+            <section id="take-test-section" class="hidden">
+                <h2 id="current-test-title"></h2>
+                <div id="timer" style="font-size:1.6rem; font-weight:700; text-align:center; color:var(--warning-color); margin-bottom:8px;"></div>
+                <div id="timer-bar" style="width:100%; height:6px; background:var(--item-bg); border-radius:3px; overflow:hidden; margin-bottom:20px;"><div id="timer-progress" style="height:100%; width:100%; background:var(--accent-color); transition:width .5s linear;"></div></div>
+                <div id="questions-display"></div>
+                <button id="submit-test-btn">تسليم الاختبار</button>
+                <button id="cancel-test-btn" class="secondary" style="background:var(--item-bg); color:var(--text-color); border: 1px solid var(--input-border);">إلغاء الاختبار</button>
+            </section>
+            <section id="test-result-section" class="hidden">
+                <h1>نتيجتك</h1>
+                <h2 id="final-score" style="font-size:1.6rem; margin:15px 0; text-align:center;"></h2>
+                <div id="retake-message" class="hidden" style="background:rgba(255, 193, 7, 0.1); border:1px solid var(--warning-color); color: var(--warning-color); border-radius:12px; padding:8px 12px; text-align:center; margin-bottom:12px;"></div>
+                <div id="feedback-message" style="padding:15px; border-radius:12px; text-align:center; margin-top:15px; font-weight:600; font-size: 1.1rem;"></div>
+                <button id="back-to-dashboard-btn">العودة للوحة التحكم</button>
+            </section>
+        </div>
+         <nav class="bottom-nav hidden" id="student-bottom-nav">
+            <button class="nav-btn active" data-target="student-tests-content"><i class="fas fa-book-open"></i><span>الاختبارات</span></button>
+            <button class="nav-btn" data-target="student-results-content"><i class="fas fa-poll-h"></i><span>نتائجي</span></button>
+        </nav>
+    </div>
 
-    async function startCamera() {
-      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      localVideo.srcObject = localStream;
-    }
+    <!-- ======== Main JavaScript Logic ======== -->
+    <script type="module">
+        // --- 1. Firebase Initialization ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+        import { getDatabase, ref, set, get, onValue, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
 
-    function showVideoUI(roomId) {
-      roomSection.style.display = 'none';
-      roomLabel.innerText = `المكالمة: ${roomId}`;
-      videoSection.style.display = 'flex';
-    }
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjE-2q6PONBkCin9ZN22gDp9Q8pAH9ZW8",
+            authDomain: "story-97cf7.firebaseapp.com",
+            databaseURL: "https://story-97cf7-default-rtdb.firebaseio.com",
+            projectId: "story-97cf7",
+            storageBucket: "story-97cf7.firebasestorage.app",
+            messagingSenderId: "742801388214",
+            appId: "1:742801388214:web:32a305a8057b0582c5ec17"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    async function createPeerConnection() {
-      pc = new RTCPeerConnection(servers);
-      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-      pc.ontrack = e => remoteVideo.srcObject = e.streams[0];
-    }
+        // --- 2. Ad Logic (Once Per Session) ---
+        function triggerAdOnFirstVisit() {
+            // sessionStorage is cleared when the browser tab is closed.
+            if (!sessionStorage.getItem('adShownThisSession')) {
+                // If the flag is not set, this is the first visit in this session.
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = '//pl26515978.profitableratecpm.com/21/e2/10/21e2109c010d0bfbd9ee6af4382c4f96.js';
+                document.body.appendChild(script);
 
-    startBtn.onclick = async () => {
-      roomId = roomIdInput.value.trim();
-      if (!roomId) return alert('من فضلك أدخل كود المكالمة');
-
-      await startCamera();
-      await createPeerConnection();
-      showVideoUI(roomId);
-
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-
-      set(ref(db, `rooms/${roomId}`), { offer });
-
-      onValue(ref(db, `rooms/${roomId}/answer`), async snap => {
-        const data = snap.val();
-        if (data && data.type === 'answer' && !pc.remoteDescription) {
-          await pc.setRemoteDescription(data);
+                // Set the flag so the ad doesn't run again during this session.
+                sessionStorage.setItem('adShownThisSession', 'true');
+            }
         }
-      });
-    };
+        // Run the ad check as soon as the page loads.
+        triggerAdOnFirstVisit();
 
-    joinBtn.onclick = async () => {
-      roomId = roomIdInput.value.trim();
-      if (!roomId) return alert('من فضلك أدخل كود المكالمة');
+        // --- 3. Main Page Logic ---
+        const mainLandingPage = document.getElementById('main-landing-page');
+        const teacherPortal = document.getElementById('teacher-portal');
+        const studentPortal = document.getElementById('student-portal');
+        
+        document.getElementById('show-teacher-portal').addEventListener('click', (e) => { e.preventDefault(); mainLandingPage.classList.add('hidden'); teacherPortal.classList.remove('hidden'); initTeacherApp(); });
+        document.getElementById('show-student-portal').addEventListener('click', (e) => { e.preventDefault(); mainLandingPage.classList.add('hidden'); studentPortal.classList.remove('hidden'); initStudentApp(); });
 
-      await startCamera();
-      await createPeerConnection();
-      showVideoUI(roomId);
+        // --- 4. Teacher App Logic ---
+        function initTeacherApp() {
+            // DOM Elements
+            const allSections = teacherPortal.querySelectorAll('section');
+            const dashboardSection = teacherPortal.querySelector('#teacher-dashboard-section');
+            const loginSection = teacherPortal.querySelector('#teacher-login-section');
+            const registerSection = teacherPortal.querySelector('#teacher-register-section');
+            const logoutIcon = teacherPortal.querySelector('#teacher-logout-icon');
+            const teacherNameSpan = teacherPortal.querySelector("#teacher-name");
+            const bottomNav = teacherPortal.querySelector('#teacher-bottom-nav');
+            const myTestsContainer = teacherPortal.querySelector("#my-tests-container");
+            const resultsTestSelector = teacherPortal.querySelector("#results-test-selector");
+            const studentResultsContainer = teacherPortal.querySelector("#student-results-container");
+            const testNameInput = teacherPortal.querySelector("#test-name");
+            const testGradeSelect = teacherPortal.querySelector("#test-grade");
+            const testDurationInput = teacherPortal.querySelector("#test-duration");
+            const questionText = teacherPortal.querySelector("#question-text");
+            const optionInputs = teacherPortal.querySelectorAll(".option-input");
+            const correctAnswerInput = teacherPortal.querySelector("#correct-answer");
+            const questionsListContainer = teacherPortal.querySelector("#questions-list-container");
+            const questionImageInput = teacherPortal.querySelector("#question-image-input");
+            const imagePreviewContainer = teacherPortal.querySelector("#image-preview-container");
+            const imagePreview = teacherPortal.querySelector("#image-preview");
+            let currentUser = null; let myTests = {}; let questionsArray = []; let currentQuestionImageBase64 = null;
+            
+            // --- UI & Theme ---
+            const themeToggle = teacherPortal.querySelector('#teacher-theme-toggle');
+            const applyTheme = (theme) => { teacherPortal.dataset.theme = theme; localStorage.setItem('teacher_theme', theme); };
+            themeToggle.onclick = () => { applyTheme(teacherPortal.dataset.theme === 'dark' ? 'light' : 'dark'); };
+            function showSection(sectionToShow) { allSections.forEach(s => s.classList.add('hidden')); sectionToShow.classList.remove('hidden'); bottomNav.classList.toggle('hidden', sectionToShow.id !== 'teacher-dashboard-section'); teacherPortal.querySelector('.container').scrollTop = 0; }
+            function showLoadingSpinner(container) { container.innerHTML = `<div class="spinner"></div>`; }
+            const navButtons = teacherPortal.querySelectorAll('.nav-btn');
+            const tabContents = teacherPortal.querySelectorAll('.tab-content');
+            navButtons.forEach(button => { button.addEventListener('click', () => { navButtons.forEach(btn => btn.classList.remove('active')); tabContents.forEach(content => content.classList.add('hidden')); button.classList.add('active'); teacherPortal.querySelector(`#${button.dataset.target}`).classList.remove('hidden'); }); });
+            function setDefaultTab() { teacherPortal.querySelector('.nav-btn[data-target="teacher-tests-content"]').click(); }
 
-      const roomRef = ref(db, `rooms/${roomId}`);
-      onValue(roomRef, async snap => {
-        const data = snap.val();
-        if (data?.offer && !pc.remoteDescription) {
-          await pc.setRemoteDescription(data.offer);
-          const answer = await pc.createAnswer();
-          await pc.setLocalDescription(answer);
-          set(ref(db, `rooms/${roomId}/answer`), answer);
+            // --- Save Test (Directly, without Ad) ---
+            teacherPortal.querySelector('#save-test-btn').onclick = async () => {
+                const name = testNameInput.value.trim();
+                const grade = testGradeSelect.value;
+                const duration = testDurationInput.value.trim();
+                if (!name || !grade || !duration || questionsArray.length === 0) {
+                    alert("يرجى ملء تفاصيل الاختبار وإضافة سؤال واحد على الأقل.");
+                    return;
+                }
+                try {
+                    const newTestRef = push(ref(db, `tests/${currentUser}`));
+                    await set(newTestRef, { name, grade, duration: parseInt(duration), questions: questionsArray, timestamp: Date.now() });
+                    alert("تم حفظ الاختبار بنجاح!");
+                    testNameInput.value = ""; testGradeSelect.value = ""; testDurationInput.value = "";
+                    questionsArray = []; renderQuestionsList(); clearQuestionForm(); setDefaultTab();
+                } catch (error) {
+                    console.error("Error saving test:", error);
+                    alert("حدث خطأ أثناء حفظ الاختبار.");
+                }
+            };
+            
+            // Other Teacher Functions
+            async function updateDashboard() { if (!currentUser) return; teacherNameSpan.textContent = currentUser; logoutIcon.classList.remove('hidden'); setDefaultTab(); showLoadingSpinner(myTestsContainer); const testsRef = ref(db, `tests/${currentUser}`); onValue(testsRef, (snapshot) => { myTests = snapshot.exists() ? snapshot.val() : {}; renderMyTests(); populateResultsSelector(); }); }
+            function renderMyTests() { myTestsContainer.innerHTML = ""; if (Object.keys(myTests).length === 0) { myTestsContainer.innerHTML = "<p>لم تقم بإنشاء أي اختبار بعد.</p>"; return; } Object.entries(myTests).forEach(([testId, test]) => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<span>${test.name} - ${test.grade}</span><button data-testid="${testId}" class="view-results-btn" style="padding: 6px 10px; font-size: 0.8rem; margin:0; box-shadow:none;">عرض النتائج</button>`; div.querySelector('.view-results-btn').onclick = () => { teacherPortal.querySelector('.nav-btn[data-target="teacher-results-content"]').click(); resultsTestSelector.value = testId; loadStudentResultsForTest(testId); }; myTestsContainer.appendChild(div); }); }
+            function populateResultsSelector() { resultsTestSelector.innerHTML = '<option value="">اختر اختبارًا لعرض نتائجه</option>'; Object.entries(myTests).forEach(([testId, test]) => { resultsTestSelector.innerHTML += `<option value="${testId}">${test.name}</option>`; }); }
+            async function loadStudentResultsForTest(testId) { if (!testId) { studentResultsContainer.innerHTML = ""; return; } showLoadingSpinner(studentResultsContainer); const resultsRef = ref(db, `results/${currentUser}/${testId}`); const snapshot = await get(resultsRef); studentResultsContainer.innerHTML = ""; if (!snapshot.exists()) { studentResultsContainer.innerHTML = "<p>لا توجد نتائج لهذا الاختبار بعد.</p>"; return; } const results = snapshot.val(); Object.entries(results).forEach(([studentName, result]) => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<span>الطالب: <strong>${studentName}</strong></span><span>الدرجة: <strong>${result.score}</strong></span>`; studentResultsContainer.appendChild(div); }); }
+            questionImageInput.addEventListener('change', (event) => { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (e) => { currentQuestionImageBase64 = e.target.result; imagePreview.src = currentQuestionImageBase64; imagePreviewContainer.classList.remove('hidden'); }; reader.readAsDataURL(file); } });
+            function renderQuestionsList() { questionsListContainer.innerHTML = "<h3>الأسئلة المضافة:</h3>"; if(questionsArray.length === 0) { questionsListContainer.innerHTML += "<p>لم يتم إضافة أسئلة بعد.</p>"; return; } questionsArray.forEach((q, index) => { const div = document.createElement('div'); div.className = 'list-item'; div.innerHTML = `<span>${index + 1}. ${q.question.substring(0, 30)}... ${q.image ? '<i class="fas fa-image" style="color:var(--accent-color); margin-right: 5px;"></i>' : ''}</span><button data-index="${index}" class="remove-q-btn" style="background:var(--danger-color); padding: 4px 10px; font-size: 1rem; margin:0; box-shadow:none; max-width: 40px;">&times;</button>`; div.querySelector('.remove-q-btn').onclick = (e) => { questionsArray.splice(parseInt(e.target.dataset.index), 1); renderQuestionsList(); }; questionsListContainer.appendChild(div); }); }
+            function clearQuestionForm() { questionText.value = ""; optionInputs.forEach(input => input.value = ""); correctAnswerInput.value = ""; questionImageInput.value = ""; imagePreviewContainer.classList.add('hidden'); imagePreview.src = "#"; currentQuestionImageBase64 = null; }
+            teacherPortal.querySelector('#add-question-btn').onclick = () => { const question = questionText.value.trim(); const options = Array.from(optionInputs).map(input => input.value.trim()); const correct = parseInt(correctAnswerInput.value); if (!question || options.some(o => o === "") || !correct || options.length !== 4) { alert("يرجى ملء جميع حقول السؤال والخيارات الأربعة والإجابة الصحيحة."); return; } if (correct < 1 || correct > 4) { alert("رقم الإجابة الصحيحة يجب أن يكون بين 1 و 4."); return; } questionsArray.push({ question, options, correct, image: currentQuestionImageBase64 }); renderQuestionsList(); clearQuestionForm(); };
+            async function saveUser(name, password) { const userRef = ref(db, `users/${name}`); if ((await get(userRef)).exists()) { alert("اسم المستخدم هذا موجود بالفعل."); return false; } await set(userRef, { password: password }); return true; }
+            async function verifyUser(name, password) { const snapshot = await get(ref(db, `users/${name}`)); return snapshot.exists() && snapshot.val().password === password; }
+            teacherPortal.querySelector('#teacher-login-btn').onclick = async () => { const name = teacherPortal.querySelector("#teacher-login-name").value.trim(); const password = teacherPortal.querySelector("#teacher-login-password").value.trim(); if (!name || !password) return alert("الرجاء تعبئة كل الحقول."); if (await verifyUser(name, password)) { currentUser = name; localStorage.setItem("loggedInTeacher", currentUser); showSection(dashboardSection); updateDashboard(); } else { alert("اسم المستخدم أو كلمة المرور غير صحيحة."); } };
+            teacherPortal.querySelector('#teacher-register-btn').onclick = async () => { const name = teacherPortal.querySelector("#teacher-register-name").value.trim(); const password = teacherPortal.querySelector("#teacher-register-password").value.trim(); if(!name || !password) return alert("الرجاء تعبئة كل الحقول"); if (await saveUser(name, password)) { alert("تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول."); showSection(loginSection); } };
+            logoutIcon.onclick = () => { if (confirm("هل أنت متأكد من رغبتك في تسجيل الخروج؟")) { currentUser = null; localStorage.removeItem("loggedInTeacher"); showSection(loginSection); logoutIcon.classList.add('hidden'); } };
+            resultsTestSelector.onchange = (e) => loadStudentResultsForTest(e.target.value);
+            teacherPortal.querySelectorAll('.to-login').forEach(el => el.onclick = (e) => { e.preventDefault(); showSection(loginSection); });
+            teacherPortal.querySelectorAll('.to-register').forEach(el => el.onclick = (e) => { e.preventDefault(); showSection(registerSection); });
+            applyTheme(localStorage.getItem('teacher_theme') || 'dark');
+            const savedUser = localStorage.getItem("loggedInTeacher"); 
+            if (savedUser) { currentUser = savedUser; showSection(dashboardSection); updateDashboard(); } else { showSection(registerSection); } 
         }
-      });
-    };
-  </script></body>
+
+        // --- 5. Student App Logic ---
+        function initStudentApp() {
+            // DOM Elements
+            const allSections = studentPortal.querySelectorAll('section');
+            const registerSection = studentPortal.querySelector('#student-register-section');
+            const loginSection = studentPortal.querySelector('#student-login-section');
+            const studentDashboard = studentPortal.querySelector('#student-dashboard-section');
+            const takeTestSection = studentPortal.querySelector('#take-test-section');
+            const testResultSection = studentPortal.querySelector('#test-result-section');
+            const studentNameSpan = studentPortal.querySelector('#student-name');
+            const logoutIcon = studentPortal.querySelector('#student-logout-icon');
+            const themeToggle = studentPortal.querySelector('#student-theme-toggle');
+            const availableTestsContainer = studentPortal.querySelector('#available-tests-container');
+            const studentResultsContainer = studentPortal.querySelector('#my-student-results-container');
+            const searchBar = studentPortal.querySelector('#search-bar');
+            const timerDisplay = studentPortal.querySelector('#timer');
+            const timerProgress = studentPortal.querySelector('#timer-progress');
+            const currentTestTitle = studentPortal.querySelector('#current-test-title');
+            const questionsDisplay = studentPortal.querySelector('#questions-display');
+            const finalScoreDisplay = studentPortal.querySelector('#final-score');
+            const retakeMessage = studentPortal.querySelector('#retake-message');
+            const feedbackMessage = studentPortal.querySelector('#feedback-message');
+            const bottomNav = studentPortal.querySelector('#student-bottom-nav');
+            const navButtons = studentPortal.querySelectorAll('.nav-btn');
+            let currentStudent = null; let studentTakenTests = {}; let allTestsData = {}; let currentTest = null; let testInterval = null; let totalTestSeconds = 0; let remainingSeconds = 0;
+
+            // --- Submit Test (Directly, without Ad) ---
+            async function submitTest(timeUp=false){
+                clearInterval(testInterval);
+                if(timeUp) showCustomAlert('انتهى الوقت!', 'انتهى وقت الاختبار! تم تسليم إجاباتك الحالية.');
+                const answers = {};
+                currentTest.questions.forEach((_,qIdx)=>{ const checked = studentPortal.querySelector(`input[name="question-${qIdx}"]:checked`); if(checked) answers[qIdx] = parseInt(checked.value); });
+                let score = 0;
+                currentTest.questions.forEach((q,qIdx)=>{ if(answers[qIdx]===q.correct) score++; });
+                const percent = Math.round((score/currentTest.questions.length)*100);
+                const fb = (percent===100) ? {text:'🥳 ممتاز! درجة كاملة!', color: 'var(--success-color)'} : (percent>=80) ? {text:'😊 عمل رائع!', color: 'var(--success-color)'} : (percent>=50) ? {text:'🙂 نتيجة جيدة، يمكنك التحسن!', color: 'var(--warning-color)', textColor: '#111'} : {text:'🙁 لا تستسلم، حاول مجددًا!', color: 'var(--danger-color)'};
+                retakeMessage.classList.add('hidden');
+                if(!studentTakenTests[currentTest.id] || currentTest.allowRetake === true){
+                    const resultObj = { testName:currentTest.name, teacherName:currentTest.teacherId, score:`${score}/${currentTest.questions.length}`, timestamp:serverTimestamp() };
+                    await set(ref(db, `studentResults/${currentStudent}/${currentTest.id}`), resultObj);
+                    await set(ref(db, `results/${currentTest.teacherId}/${currentTest.id}/${currentStudent}`), {score: resultObj.score, timestamp: resultObj.timestamp});
+                    studentTakenTests[currentTest.id] = resultObj;
+                }else{
+                    retakeMessage.textContent = 'هذه محاولة للمراجعة. تم الاحتفاظ بنتيجتك الأولى.';
+                    retakeMessage.classList.remove('hidden');
+                }
+                finalScoreDisplay.textContent = `درجتك: ${score} من ${currentTest.questions.length}`;
+                feedbackMessage.style.background = fb.color; feedbackMessage.style.color = fb.textColor || '#fff';
+                feedbackMessage.textContent = fb.text;
+                showSection(testResultSection);
+            }
+
+            studentPortal.querySelector('#submit-test-btn').onclick = () => submitTest(false);
+            
+            // Other Student Functions
+            function showSection(section){ allSections.forEach(s=>s.classList.add('hidden')); section.classList.remove('hidden'); bottomNav.classList.toggle('hidden', section.id !== 'student-dashboard-section'); studentPortal.querySelector('.container').scrollTop = 0; }
+            function applyTheme(theme){ studentPortal.dataset.theme = theme; localStorage.setItem('student_theme', theme); }
+            themeToggle.onclick = () => applyTheme(studentPortal.dataset.theme === 'dark' ? 'light' : 'dark');
+            const customAlertContainer = studentPortal.querySelector('#custom-alert-container');
+            const customAlertTitle = studentPortal.querySelector('#custom-alert-title');
+            const customAlertMessage = studentPortal.querySelector('#custom-alert-message');
+            function showCustomAlert(title, message){ customAlertTitle.textContent = title; customAlertMessage.textContent = message; customAlertContainer.classList.add('show'); }
+            customAlertContainer.querySelector('#custom-alert-close-btn').onclick = () => customAlertContainer.classList.remove('show');
+            function showToast(message, duration = 3000){ const toastContainer = studentPortal.querySelector('#toast-container'); const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message; toastContainer.appendChild(toast); setTimeout(() => { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; }, 10); setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; setTimeout(() => toast.remove(), 300); }, duration); }
+            function showLoading(container){ container.innerHTML = '<div class="spinner"></div>'; }
+            async function loadDashboard(){ if(!currentStudent) return; studentNameSpan.textContent = currentStudent; logoutIcon.classList.remove('hidden'); setDefaultTab(); showLoading(availableTestsContainer); showLoading(studentResultsContainer); const resultsSnap = await get(ref(db, `studentResults/${currentStudent}`)); studentTakenTests = resultsSnap.exists() ? resultsSnap.val() : {}; renderStudentResults(); const testsRef = ref(db, 'tests'); onValue(testsRef, snap=>{ allTestsData = snap.exists()? snap.val() : {}; renderAvailableTests(); },{onlyOnce:true}); }
+            function renderAvailableTests(filter=''){ availableTestsContainer.innerHTML = ''; let anyFound = false; Object.entries(allTestsData).forEach(([teacherId, teacherTests])=>{ Object.entries(teacherTests).forEach(([testId, test])=>{ const searchStr = `${test.name} ${test.grade} ${teacherId}`.toLowerCase(); if(filter && !searchStr.includes(filter.toLowerCase())) return; anyFound = true; const completed = !!studentTakenTests[testId]; const card = document.createElement('div'); card.className = `test-item ${completed ? 'completed' : ''}`; card.innerHTML = `<div class="test-info" style="flex:1; display:flex; align-items:center; gap: 12px;"><span class="test-emoji" style="font-size: 1.5rem;">📚</span><div style="text-align: right;"><strong>${test.name}</strong><br><small>${test.grade} - المعلم: ${teacherId}</small></div></div><div class="test-actions"><button class="start-test-btn" style="padding: 6px 10px; font-size: 0.8rem; min-width:auto; margin:0; box-shadow: none; ${completed ? 'background:var(--warning-color); color:#111;' : ''}">${completed ? 'إعادة المحاولة' : 'بدء الاختبار'}</button></div>`; card.querySelector('.start-test-btn').onclick = () => startTest(teacherId, testId, test); availableTestsContainer.appendChild(card); }); }); if(!anyFound){ availableTestsContainer.innerHTML = '<p style="text-align:center; padding: 20px 0;">لا توجد اختبارات متاحة حاليًا.</p>'; } }
+            function renderStudentResults(){ studentResultsContainer.innerHTML = ''; const results = Object.values(studentTakenTests).sort((a,b)=>b.timestamp - a.timestamp); if(results.length===0){ studentResultsContainer.innerHTML = '<p style="text-align:center; padding: 20px 0;">لم تقم بإجراء أي اختبار بعد.</p>'; return; } results.forEach(r=>{ const d = new Date(r.timestamp).toLocaleString('ar-EG',{dateStyle:'short',timeStyle:'short'}); const div = document.createElement('div'); div.className = 'test-item'; div.innerHTML = `<div style="text-align:right;"><strong>${r.testName}</strong><br><small>الدرجة: <strong>${r.score}</strong> - بتاريخ: ${d}</small></div>`; studentResultsContainer.appendChild(div); }); }
+            function startTest(teacherId,testId,testData){ if(studentTakenTests[testId] && testData.allowRetake!==true){ showCustomAlert('للمراجعة فقط', 'لقد أكملت هذا الاختبار مسبقًا. هذه المحاولة للمراجعة فقط ولن يتم تسجيل نتيجتها.'); } currentTest = {...testData, id:testId, teacherId}; currentTestTitle.textContent = currentTest.name; totalTestSeconds = currentTest.duration * 60; remainingSeconds = totalTestSeconds; questionsDisplay.innerHTML = ''; currentTest.questions?.forEach((q,qIdx)=>{ const qDiv = document.createElement('div'); qDiv.style.marginBottom='25px'; qDiv.innerHTML = `<h4 style="text-align:right; margin-bottom: 15px;">السؤال ${qIdx+1}: ${q.question}</h4>${q.image ? `<img src="${q.image}" alt="صورة السؤال" style="max-width:100%;border-radius:10px;margin:10px 0;">` : ''}<div class="question-options">${q.options.map((opt,optIdx)=>`<label><input type="radio" name="question-${qIdx}" value="${optIdx+1}" style="accent-color:var(--accent-color); width: 1.2em; height: 1.2em;" /><span>${opt}</span></label>`).join('')}</div>`; questionsDisplay.appendChild(qDiv); }); timerDisplay.textContent = formatTime(remainingSeconds); timerProgress.style.width = '100%'; if(testInterval) clearInterval(testInterval); testInterval = setInterval(()=>{ remainingSeconds--; timerDisplay.textContent = formatTime(remainingSeconds); const percent = (remainingSeconds/totalTestSeconds)*100; timerProgress.style.width = percent + '%'; if(remainingSeconds<=0){ clearInterval(testInterval); submitTest(true); } },1000); showSection(takeTestSection); }
+            function cancelTest(){ if(confirm('هل أنت متأكد من إلغاء الاختبار؟ لن يتم حفظ تقدمك.')){ clearInterval(testInterval); showSection(studentDashboard); loadDashboard(); } }
+            function formatTime(sec){ const m = Math.floor(sec/60); const s = sec%60; return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
+            async function registerUser(){ const name = studentPortal.querySelector('#student-register-name').value.trim(); const pass = studentPortal.querySelector('#student-register-password').value.trim(); if(!name||!pass) return showCustomAlert('خطأ', 'الرجاء ملء جميع الحقول'); const userRef = ref(db, `students/${name}`); if((await get(userRef)).exists()){ return showCustomAlert('خطأ', 'اسم المستخدم هذا موجود مسبقًا.'); } await set(userRef,{password:pass}); showCustomAlert('نجاح', 'تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول.'); showSection(loginSection); }
+            async function loginUser(){ const name = studentPortal.querySelector('#student-login-name').value.trim(); const pass = studentPortal.querySelector('#student-login-password').value.trim(); if(!name||!pass) return showCustomAlert('خطأ', 'الرجاء ملء جميع الحقول'); const snap = await get(ref(db, `students/${name}`)); if(!snap.exists() || snap.val().password!==pass){ return showCustomAlert('خطأ', 'اسم المستخدم أو كلمة المرور غير صحيحة.'); } currentStudent = name; localStorage.setItem('loggedInStudent',currentStudent); showSection(studentDashboard); loadDashboard(); }
+            logoutIcon.onclick = ()=>{ if(confirm('هل أنت متأكد من تسجيل الخروج؟')){ currentStudent = null; localStorage.removeItem('loggedInStudent'); showSection(loginSection); logoutIcon.classList.add('hidden'); } };
+            navButtons.forEach(btn=>{ btn.addEventListener('click',()=>{ navButtons.forEach(b=>b.classList.remove('active')); studentPortal.querySelectorAll('.tab-content').forEach(c=>c.classList.add('hidden')); btn.classList.add('active'); studentPortal.querySelector(`#${btn.dataset.target}`).classList.remove('hidden'); }); });
+            function setDefaultTab(){ studentPortal.querySelector('.nav-btn[data-target="student-tests-content"]').click(); }
+            studentPortal.querySelector('#student-register-btn').onclick = registerUser;
+            studentPortal.querySelector('#student-login-btn').onclick = loginUser;
+            studentPortal.querySelectorAll('.to-login').forEach(el => el.onclick = e=>{ e.preventDefault(); showSection(loginSection); });
+            studentPortal.querySelectorAll('.to-register').forEach(el => el.onclick = e=>{ e.preventDefault(); showSection(registerSection); });
+            studentPortal.querySelector('#back-to-dashboard-btn').onclick = ()=>{ showSection(studentDashboard); loadDashboard(); };
+            studentPortal.querySelector('#cancel-test-btn').onclick = cancelTest;
+            searchBar.addEventListener('input', e=>renderAvailableTests(e.target.value));
+            applyTheme(localStorage.getItem('student_theme')||'dark');
+            const savedStudent = localStorage.getItem('loggedInStudent');
+            if(savedStudent){ currentStudent = savedStudent; showSection(studentDashboard); loadDashboard(); } else { showSection(registerSection); }
+        }
+    </script>
+</body>
 </html>
