@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>منصة الاختبارات الذكية 🚀</title>
 
-    <!-- Meta Tags for Social Sharing (تم تحديث الصورة هنا) -->
+    <!-- Meta Tags for Social Sharing -->
     <meta property="og:title" content="منصة الاختبارات الذكية 🚀" />
     <meta property="og:description" content="بوابة التعلم الذكي التي تدمج التكنولوجيا بالتعليم! سواء كنت معلمًا مبتكرًا أو طالبًا طموحًا، نقدم لك أدوات متكاملة لتحقيق التميز الأكاديمي!" />
     <meta property="og:image" content="https://i.postimg.cc/3RBYLnd3/818334fa-20ba-431a-ad38-6bec7ef02203.png" />
@@ -287,34 +287,11 @@
         #student-portal .toast-container { position:fixed; bottom:120px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; z-index:10000; pointer-events:none; }
         #student-portal .toast { background:rgba(22, 27, 34, 0.85); backdrop-filter: blur(10px); color: #fff; padding: 10px 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: 0.9rem; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
         
-        /* === Media Queries for Responsiveness / تعديلات التصميم المتجاوب === */
-        @media (max-width: 767px) {
-            #main-landing-page .container { padding: 30px 15px; margin: 10px; }
-            #main-landing-page h1 { font-size: 2.5rem; }
-            #main-landing-page .features { grid-template-columns: 1fr; }
-            #main-landing-page .role-button { font-size: 1.2rem; padding: 20px 30px; }
-            #main-landing-page .supervision-tag { font-size: 0.8rem; padding: 8px 15px; top: 10px; right: 10px; }
-            .portal-container .container { width: 95%; padding: 25px 15px 100px 15px; min-height: 90vh; max-height: 90vh; }
-        }
-        @media (min-width: 768px) and (max-width: 1023px) {
-            #main-landing-page .container { max-width: 90%; padding: 40px; }
-            #main-landing-page h1 { font-size: 3rem; }
-            .portal-container .container { max-width: 700px; }
-        }
-        @media (min-width: 1024px) {
-            #main-landing-page .container { max-width: 1200px; padding: 60px 50px; }
-            #main-landing-page h1 { font-size: 4rem; }
-            #main-landing-page p { font-size: 1.3rem; padding: 0 40px; }
-            #main-landing-page .features { grid-template-columns: repeat(4, 1fr); gap: 25px; }
-            #main-landing-page .role-selection { flex-direction: row; justify-content: center; gap: 40px; }
-            .portal-container .container { max-width: 900px; width: 80%; }
-        }
-
-        /* --- Floating AI Chat Icon Styles (START) --- */
+        /* --- Floating AI Chat Icon Styles --- */
         #ai-chat-icon {
             position: fixed;
             bottom: 25px;
-            right: 25px; /* يمكنك تغييرها إلى left: 25px; لوضعها على اليسار */
+            right: 25px;
             width: 60px;
             height: 60px;
             background: linear-gradient(45deg, #6366f1, #a855f7);
@@ -327,7 +304,7 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             z-index: 9998;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             animation: pulse-icon 2s infinite;
         }
 
@@ -383,7 +360,7 @@
             transform: scale(1);
             opacity: 1;
         }
-
+        
         #ai-chat-close-btn {
             position: absolute;
             top: 15px;
@@ -406,19 +383,65 @@
             background: rgba(255, 0, 0, 0.8);
             transform: rotate(90deg) scale(1.1);
         }
-
+        
+        /* === Media Queries for Responsiveness === */
         @media (max-width: 767px) {
+            #main-landing-page .container { padding: 30px 15px; margin: 10px; }
+            #main-landing-page h1 { font-size: 2.5rem; }
+            #main-landing-page .features { grid-template-columns: 1fr; }
+            #main-landing-page .role-button { font-size: 1.2rem; padding: 20px 30px; }
+            #main-landing-page .supervision-tag { display: none; }
+            .portal-container .container { width: 95%; padding: 25px 15px 100px 15px; min-height: 90vh; max-height: 90vh; }
+            
+            /* -- Mobile-Specific Styles for AI Chat -- */
+            #ai-chat-icon {
+                top: 15px;
+                right: 15px;
+                bottom: auto;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
             #ai-chat-iframe {
                 max-width: 100%;
                 max-height: 100%;
                 border-radius: 0;
             }
             #ai-chat-close-btn {
-                top: 10px;
-                right: 10px;
+                top: auto;
+                right: auto;
+                left: 50%;
+                bottom: 20px;
+                transform: translateX(-50%);
+                width: auto;
+                height: auto;
+                padding: 10px 30px;
+                border-radius: 50px;
+                font-size: 22px;
+                line-height: 1.5;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+            #ai-chat-close-btn:hover {
+                background: #fff;
+                transform: translateX(-50%) scale(1.05);
             }
         }
-        /* --- Floating AI Chat Icon Styles (END) --- */
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #main-landing-page .container { max-width: 90%; padding: 40px; }
+            #main-landing-page h1 { font-size: 3rem; }
+            .portal-container .container { max-width: 700px; }
+        }
+        @media (min-width: 1024px) {
+            #main-landing-page .container { max-width: 1200px; padding: 60px 50px; }
+            #main-landing-page h1 { font-size: 4rem; }
+            #main-landing-page p { font-size: 1.3rem; padding: 0 40px; }
+            #main-landing-page .features { grid-template-columns: repeat(4, 1fr); gap: 25px; }
+            #main-landing-page .role-selection { flex-direction: row; justify-content: center; gap: 40px; }
+            .portal-container .container { max-width: 900px; width: 80%; }
+        }
     </style>
 </head>
 <body>
@@ -574,20 +597,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- 2. Ad Logic (Once Per Session) ---
-        function triggerAdOnFirstVisit() {
-            if (!sessionStorage.getItem('adShownThisSession')) {
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                // الكود الإعلاني الجديد
-                script.src = '//pl26515980.profitableratecpm.com/35/45/59/3545593549db2a016d0f7f3c6df97fbc.js';
-                document.body.appendChild(script);
-                sessionStorage.setItem('adShownThisSession', 'true');
-            }
-        }
-        triggerAdOnFirstVisit();
-
-        // --- 3. Main Page & Deep Linking Logic ---
+        // --- 2. Main Page & Deep Linking Logic ---
         const mainLandingPage = document.getElementById('main-landing-page');
         const teacherPortal = document.getElementById('teacher-portal');
         const studentPortal = document.getElementById('student-portal');
@@ -612,7 +622,7 @@
             return false;
         }
 
-        // --- 4. Teacher App Logic ---
+        // --- 3. Teacher App Logic ---
         function initTeacherApp() {
             // DOM Elements
             const allSections = teacherPortal.querySelectorAll('section');
@@ -625,7 +635,6 @@
             const myTestsContainer = teacherPortal.querySelector("#my-tests-container");
             const resultsTestSelector = teacherPortal.querySelector("#results-test-selector");
             const studentResultsContainer = teacherPortal.querySelector("#student-results-container");
-            // ... (rest of the variables are the same)
             const testNameInput = teacherPortal.querySelector("#test-name");
             const testGradeSelect = teacherPortal.querySelector("#test-grade");
             const testDurationInput = teacherPortal.querySelector("#test-duration");
@@ -638,7 +647,7 @@
             const imagePreview = teacherPortal.querySelector("#image-preview");
             let currentUser = null; let myTests = {}; let questionsArray = []; let currentQuestionImageBase64 = null;
             
-            // --- UI & Theme ---
+            // UI & Theme
             const themeToggle = teacherPortal.querySelector('#teacher-theme-toggle');
             const applyTheme = (theme) => { teacherPortal.dataset.theme = theme; localStorage.setItem('teacher_theme', theme); };
             themeToggle.onclick = () => { applyTheme(teacherPortal.dataset.theme === 'dark' ? 'light' : 'dark'); };
@@ -722,7 +731,7 @@
             if (savedUser) { currentUser = savedUser; showSection(dashboardSection); updateDashboard(); } else { showSection(registerSection); } 
         }
 
-        // --- 5. Student App Logic ---
+        // --- 4. Student App Logic ---
         function initStudentApp() {
             // DOM Elements
             const allSections = studentPortal.querySelectorAll('section');
@@ -738,7 +747,6 @@
             const studentResultsContainer = studentPortal.querySelector('#my-student-results-container');
             const searchBar = studentPortal.querySelector('#search-bar');
             const toastContainer = studentPortal.querySelector('#toast-container');
-            // ... (rest of the variables)
             const timerDisplay = studentPortal.querySelector('#timer');
             const timerProgress = studentPortal.querySelector('#timer-progress');
             const currentTestTitle = studentPortal.querySelector('#current-test-title');
@@ -776,7 +784,6 @@
             }
             studentPortal.querySelector('#submit-test-btn').onclick = () => submitTest(false);
             
-            // Other Student Functions
             function showSection(section){ allSections.forEach(s=>s.classList.add('hidden')); section.classList.remove('hidden'); bottomNav.classList.toggle('hidden', section.id !== 'student-dashboard-section'); studentPortal.querySelector('.container').scrollTop = 0; }
             function applyTheme(theme){ studentPortal.dataset.theme = theme; localStorage.setItem('student_theme', theme); }
             themeToggle.onclick = () => applyTheme(studentPortal.dataset.theme === 'dark' ? 'light' : 'dark');
@@ -837,7 +844,6 @@
                 currentStudent = name;
                 localStorage.setItem('loggedInStudent', currentStudent);
                 
-                // Check if we came from a deep link
                 const deepLinkData = sessionStorage.getItem('deepLinkTest');
                 if(deepLinkData){
                     await startDeepLinkTest();
@@ -851,7 +857,7 @@
                 if(!deepLinkDataJSON) return;
 
                 const { teacherId, testId } = JSON.parse(deepLinkDataJSON);
-                sessionStorage.removeItem('deepLinkTest'); // Use it once
+                sessionStorage.removeItem('deepLinkTest'); 
                 
                 const testRef = ref(db, `tests/${teacherId}/${testId}`);
                 const testSnap = await get(testRef);
@@ -876,7 +882,7 @@
             studentPortal.querySelector('#cancel-test-btn').onclick = cancelTest;
             searchBar.addEventListener('input', e=>renderAvailableTests(e.target.value));
             
-            // --- Initial Load Logic ---
+            // Initial Load Logic
             applyTheme(localStorage.getItem('student_theme')||'dark');
             const savedStudent = localStorage.getItem('loggedInStudent');
             const deepLinkData = sessionStorage.getItem('deepLinkTest');
@@ -884,40 +890,40 @@
             if (savedStudent) {
                 currentStudent = savedStudent;
                 if(deepLinkData) {
-                    startDeepLinkTest(); // Already logged in, start test directly
+                    startDeepLinkTest();
                 } else {
                     showSection(studentDashboard);
                     loadDashboard();
                 }
             } else {
                  if(deepLinkData){
-                    showSection(loginSection); // Not logged in, show login first
+                    showSection(loginSection);
                     showCustomAlert("مطلوب تسجيل الدخول", "يرجى تسجيل الدخول أولاً للمتابعة إلى الاختبار.");
                 } else {
-                    showSection(registerSection); // Normal flow
+                    showSection(registerSection);
                 }
             }
         }
 
         // --- Execute on page load ---
         if (!handleDeepLink()) {
-            // If it's not a deep link, show the main landing page as default
             mainLandingPage.classList.remove('hidden');
         }
     </script>
     
-    <!-- Floating AI Chat Icon and Iframe Container (START) -->
+    <!-- Floating AI Chat Icon and Iframe Container -->
     <div id="ai-chat-icon" title="اسأل الذكاء الاصطناعي">
         <i class="fas fa-robot"></i>
     </div>
 
     <div id="ai-chat-container">
-        <button id="ai-chat-close-btn">&times;</button>
+        <button id="ai-chat-close-btn">
+            <i class="fas fa-arrow-left"></i>
+        </button>
         <iframe id="ai-chat-iframe" src="https://saif1230876657.github.io/xzx/" allow="microphone"></iframe>
     </div>
-    <!-- Floating AI Chat Icon and Iframe Container (END) -->
 
-    <!-- Script for AI Chat Iframe (START) -->
+    <!-- Script for AI Chat Iframe -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const aiChatIcon = document.getElementById('ai-chat-icon');
@@ -935,6 +941,5 @@
             }
         });
     </script>
-    <!-- Script for AI Chat Iframe (END) -->
 </body>
 </html>
