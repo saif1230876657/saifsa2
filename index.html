@@ -309,6 +309,116 @@
             #main-landing-page .role-selection { flex-direction: row; justify-content: center; gap: 40px; }
             .portal-container .container { max-width: 900px; width: 80%; }
         }
+
+        /* --- Floating AI Chat Icon Styles (START) --- */
+        #ai-chat-icon {
+            position: fixed;
+            bottom: 25px;
+            right: 25px; /* يمكنك تغييرها إلى left: 25px; لوضعها على اليسار */
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #6366f1, #a855f7);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 9998;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: pulse-icon 2s infinite;
+        }
+
+        #ai-chat-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            animation-play-state: paused;
+        }
+
+        @keyframes pulse-icon {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Iframe Container Styles */
+        #ai-chat-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #ai-chat-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #ai-chat-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        #ai-chat-container.visible #ai-chat-iframe {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #ai-chat-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 28px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10000;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        #ai-chat-close-btn:hover {
+            background: rgba(255, 0, 0, 0.8);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        @media (max-width: 767px) {
+            #ai-chat-iframe {
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 0;
+            }
+            #ai-chat-close-btn {
+                top: 10px;
+                right: 10px;
+            }
+        }
+        /* --- Floating AI Chat Icon Styles (END) --- */
     </style>
 </head>
 <body>
@@ -795,5 +905,36 @@
             mainLandingPage.classList.remove('hidden');
         }
     </script>
+    
+    <!-- Floating AI Chat Icon and Iframe Container (START) -->
+    <div id="ai-chat-icon" title="اسأل الذكاء الاصطناعي">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div id="ai-chat-container">
+        <button id="ai-chat-close-btn">&times;</button>
+        <iframe id="ai-chat-iframe" src="https://saif1230876657.github.io/xzx/" allow="microphone"></iframe>
+    </div>
+    <!-- Floating AI Chat Icon and Iframe Container (END) -->
+
+    <!-- Script for AI Chat Iframe (START) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const aiChatIcon = document.getElementById('ai-chat-icon');
+            const aiChatContainer = document.getElementById('ai-chat-container');
+            const aiChatCloseBtn = document.getElementById('ai-chat-close-btn');
+
+            if (aiChatIcon && aiChatContainer && aiChatCloseBtn) {
+                aiChatIcon.addEventListener('click', function() {
+                    aiChatContainer.classList.add('visible');
+                });
+
+                aiChatCloseBtn.addEventListener('click', function() {
+                    aiChatContainer.classList.remove('visible');
+                });
+            }
+        });
+    </script>
+    <!-- Script for AI Chat Iframe (END) -->
 </body>
 </html>
